@@ -70,8 +70,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			//Except them every thing should authorize
 			httpsecurity
 			.csrf().disable()
-			.authorizeRequests().antMatchers("/login").permitAll()
+			.authorizeRequests().antMatchers("/api/login").permitAll()
 			.antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
+			.antMatchers(HttpMethod.GET,"/**").permitAll()
 			.anyRequest().authenticated()
 			.and().exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
 			.and()

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +17,7 @@ import com.abhi.empanelment.repository.TokenRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import com.abhi.empanelment.model.Token;
 
 @Component
 public class JwtTokenUtil implements Serializable {
@@ -53,8 +55,7 @@ public class JwtTokenUtil implements Serializable {
 		Claims claims = null;
 
 		try {
-			claims = Jwts.parser().setSigningKey(secret).
-					parseClaimsJws(authToken).getBody();
+			claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(authToken).getBody();
 
 		} catch (Exception e) {
 			claims = null;
@@ -67,10 +68,11 @@ public class JwtTokenUtil implements Serializable {
 		JwtUser user = (JwtUser) userDetails;
 		final String username = getUserNameFromToken(authToken);
 		boolean isValid= tokenRepository.findByToken(authToken).map(x->!x.isLogout()).orElse(false);
+		System.out.println("Token logout value:"+isValid);
 		return (username.equals(user.getUsername()) &&
 				!isTokenExpired(authToken) && isValid);
-
-		// return false;
+//		return (username.equals(user.getUsername()) &&
+//				!isTokenExpired(authToken));
 	}
 
 	private boolean isTokenExpired(String authToken) {

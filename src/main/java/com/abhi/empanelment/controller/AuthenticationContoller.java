@@ -46,6 +46,7 @@ public class AuthenticationContoller {
 	public ResponseEntity<?> login(@RequestBody UserJwtLoginDTO userDto, HttpServletRequest request,
 			HttpServletResponse response) {
 
+		System.out.println("Inside login controller");
 		Authentication authentication = authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(userDto.getUserName(), password));// user.getPassword()
 		JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
@@ -55,8 +56,8 @@ public class AuthenticationContoller {
 		revokeAlltokenByUserName(jwtUser);
 		saveUserToken(jwtUser, token); // for logout;
 
-		response.setHeader(tokenHeader, token);
-		return ResponseEntity.ok("Sueesfully Genraed");
+		response.setHeader("token", token);
+		return ResponseEntity.ok("Sueesfully Generated");
 	}
 
 	public void revokeAlltokenByUserName(JwtUser jwtUser) {

@@ -14,10 +14,10 @@ import com.abhi.empanelment.model.Token;
 @Repository
 public interface TokenRepository extends JpaRepository<Token, Integer>{
 
-	@Query(value = "select t fom token t inner join lp_admin_master m on t.user_name=m.user_name where t.user_name=:username and t.isLogout=false",nativeQuery = true)
+	@Query(value = "select t.id, t.is_logout, t.token, t.user_name from token t left join provider_portal_master m on t.user_name=m.user_name where t.user_name=:username and t.is_Logout=false",nativeQuery = true)
 	List<Token> findAllTokenByUserName(String username);
 	
 	Optional<Token> findByToken(String token);
 
-	void saveAll(com.abhi.empanelment.model.Token tokenModel);
+//	void saveAll(com.abhi.empanelment.model.Token tokenModel);
 }

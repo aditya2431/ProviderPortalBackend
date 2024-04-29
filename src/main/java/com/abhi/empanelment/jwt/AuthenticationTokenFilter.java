@@ -38,13 +38,18 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter{
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-		String authToken=Optional.ofNullable(request.getHeader(this.authorization)).orElse("");
+//		String authToken=Optional.ofNullable(request.getHeader(this.authorization)).orElse("");
+		String authToken=Optional.ofNullable(request.getHeader("Authorization")).orElse("");
+//		String authToken = request.getHeader(this.authorization);
 		String url=Optional.ofNullable(request.getRequestURI()).orElse("");
 		
 		Long urlCount=urlList.stream().filter(x->x.contains(url)).distinct().count();
 		
-		if(!authToken.isEmpty() && urlCount>0) {
+		if(!authToken.isEmpty() &&  !url.contains("/login")) {
+			System.out.println("reached inside if condition: "+authToken);
+			System.out.println("url is: "+url);
 			String userName=jwtTokenUtil.getUserNameFromToken(authToken);
+			System.out.println("Username is:"+userName);
 			if(userName!=null && SecurityContextHolder.getContext().getAuthentication()==null) {
 				UserDetails userDetails  =userDetailsService.loadUserByUsername(userName); 
 				boolean isValid=jwtTokenUtil.validateToken(authToken, userDetails);

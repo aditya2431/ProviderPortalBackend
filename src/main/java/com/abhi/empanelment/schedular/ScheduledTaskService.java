@@ -48,7 +48,7 @@ public class ScheduledTaskService {
 		MOUReminder mouReminder =  new MOUReminder(sendLinkRepository, userRepository, auditTrailService, utilityService);
 
 		
-		reminder.sendReminder(3, "A6060", "Init");
+		/*reminder.sendReminder(3, "A6060", "Init");
 		Thread.sleep(3000);
 		reminder.sendReminder(3, "A6061", "Init");
 		Thread.sleep(3000);
@@ -75,7 +75,7 @@ public class ScheduledTaskService {
 		mouReminder.sendReminder(2, "A6087", "MOU Generated");
 		Thread.sleep(3000);
 		mouReminder.sendReminder(4, "A6088", "MOU Generated");
-		Thread.sleep(3000); 
+		Thread.sleep(3000); */
 
 	}
 }
